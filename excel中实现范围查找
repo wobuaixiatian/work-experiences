@@ -1,0 +1,26 @@
+最近工作需要在excel中实现sheet1中的数据在sheet2中查找，然后如果sheet2中有对应的数据，就把相关的信息返回到sheet1相应的当中。
+这里的sheet2其实相当于一个信息总表，是所有相关信息的一个记录。sheet1表是一个查询表，用户在这里记录相关的信息，然后希望得到其他与记录信息相关的信息
+这里采用的是excel中的Index函数和match函数。
+比如，excel中sheet2里，A2:B30这里是用户名和用户描述，sheet1中A列会填写用户名，然后希望在sheet1的B列出现对应的描述
+=INDEX(Sheet2!A2:B30,MATCH(A1,Sheet2!A2:A30,0),2)
+在sheet1列中填写上述公式，然后下来到所有的希望查找信息的行，即可。
+
+下面详细解释一下这两个函数的意义
+MATCH返回查找内容在数据区域中的位置函数
+MATCH(lookup_value, lookup_array, match_type)，函数解释：第一个参数查找的内容，第二个参数数据区域，第三个参数查询的方式。
+match_type,可以是-1（大于，lookup_array必须以降序排列）,0（精确匹配，lookup_array排列不做要求）,1（小于，lookup_array必须以升序排列）
+结合本例说明一下。
+lookup_value：所要匹配的用户名
+lookup_array:sheet2中用户名和对应信息的范围
+match_type：名字相同的
+这个公示会返回一个数字，这个数字就是sheet1中填写的用户名在sheet2中的位置，
+
+index(array,row_num,column_num) 返回一个区域中找出想要的行与列对应的单元格的值，
+函数解释：第一个参数array表示我们要引用的数据区域，第二个参数row_num表示要引用的行数，第三个参数column_num表示要引用的列数。
+结合本地说明一下。
+array：sheet2中用户名和对应信息的范围
+row_num：所查找的信息所在的行数，这里就是match返回的值
+column_num：返回区域内第几列信息。这里返回的是第二列，用户描述信息
+
+
+到这里就可以得到想要的结果，excel中提供的函数很多，有些了解后对工作效率提升
